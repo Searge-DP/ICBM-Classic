@@ -1,6 +1,5 @@
 package com.builtbroken.icbmclassic;
 
-import com.builtbroken.icbm.CommonProxy;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.AbstractProxy;
 import cpw.mods.fml.common.Mod;
