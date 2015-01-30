@@ -37,14 +37,14 @@ public class EntityClassicMissile extends EntityMissile
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound nbt)
+    public void readEntityFromNBT(NBTTagCompound nbt)
     {
         super.readEntityFromNBT(nbt);
         id = nbt.getInteger("missileID");
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound nbt)
+    public void writeEntityToNBT(NBTTagCompound nbt)
     {
         super.writeEntityToNBT(nbt);
         nbt.setInteger("missileID", id);
