@@ -5,13 +5,11 @@ import com.builtbroken.icbm.api.IAmmo;
 import com.builtbroken.icbm.api.IAmmoType;
 import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.api.IWeapon;
-import com.builtbroken.icbm.content.missile.AmmoTypeMissile;
 import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -52,7 +50,7 @@ public class ItemClassicMissiles extends Item implements IExplosiveItem, IAmmo, 
     }
 
     @Override
-    public IExplosive getExplosive(ItemStack stack)
+    public IExplosiveHandler getExplosive(ItemStack stack)
     {
         return EnumMissiles.get(stack.getItemDamage()).ex;
     }

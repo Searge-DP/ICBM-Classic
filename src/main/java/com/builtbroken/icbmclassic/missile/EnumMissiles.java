@@ -1,7 +1,7 @@
 package com.builtbroken.icbmclassic.missile;
 
 import com.builtbroken.icbm.content.missile.AmmoTypeMissile;
-import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 
 /**
  * Created by robert on 1/17/2015.
@@ -12,7 +12,7 @@ public enum EnumMissiles
     REDMATTER();
 
     AmmoTypeMissile size = AmmoTypeMissile.STANDARD;
-    IExplosive ex;
+    IExplosiveHandler ex;
     String modelName;
     String textureName;
     String unlocalizedName;
@@ -22,7 +22,7 @@ public enum EnumMissiles
 
     }
 
-    private EnumMissiles(AmmoTypeMissile size, String modelName, String textureName, String unlocalizedName, IExplosive ex)
+    private EnumMissiles(AmmoTypeMissile size, String modelName, String textureName, String unlocalizedName, IExplosiveHandler ex)
     {
         this.size = size;
         this.modelName = modelName;

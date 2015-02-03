@@ -1,15 +1,10 @@
 package com.builtbroken.icbmclassic.missile;
 
-import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.mc.api.explosive.IExplosive;
-import cpw.mods.fml.common.network.ByteBufUtils;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -75,7 +70,7 @@ public class EntityClassicMissile extends EntityMissile
     }
 
     @Override
-    public IExplosive getExplosive()
+    public IExplosiveHandler getExplosive()
     {
         return EnumMissiles.get(id).ex;
     }
