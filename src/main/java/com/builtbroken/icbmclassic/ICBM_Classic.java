@@ -56,7 +56,7 @@ public class ICBM_Classic extends AbstractMod
 
     public ICBM_Classic()
     {
-        super(DOMAIN);
+        super(DOMAIN, "ICBM-Classic");
     }
 
     @Mod.EventHandler
