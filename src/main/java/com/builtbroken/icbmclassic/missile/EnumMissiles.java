@@ -17,12 +17,12 @@ public enum EnumMissiles
     String textureName;
     String unlocalizedName;
 
-    private EnumMissiles()
+    EnumMissiles()
     {
 
     }
 
-    private EnumMissiles(AmmoTypeMissile size, String modelName, String textureName, String unlocalizedName, IExplosiveHandler ex)
+    EnumMissiles(AmmoTypeMissile size, String modelName, String textureName, String unlocalizedName, IExplosiveHandler ex)
     {
         this.size = size;
         this.modelName = modelName;
