@@ -1,5 +1,6 @@
 package com.builtbroken.icbmclassic;
 
+import com.builtbroken.icbmclassic.trackingpackage.ItemTracker;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.AbstractProxy;
 import cpw.mods.fml.common.Mod;
@@ -10,6 +11,9 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import net.minecraft.item.Item;
+import com.builtbroken.mc.lib.mod.ModCreativeTab;
+import net.minecraft.item.ItemStack;
 
 /**
  * Created by robert on 1/17/2015.
@@ -45,6 +49,12 @@ public class ICBM_Classic extends AbstractMod
 
     public static final Logger LOGGER = LogManager.getLogger(NAME);
 
+    // Items
+
+    public static Item itemTracker;
+
+    public final ModCreativeTab CREATIVE_TAB;
+
     @Mod.Instance(DOMAIN)
     public static ICBM_Classic INSTANCE;
 
@@ -57,12 +67,26 @@ public class ICBM_Classic extends AbstractMod
     public ICBM_Classic()
     {
         super(DOMAIN, "ICBM-Classic");
+
+        CREATIVE_TAB = new ModCreativeTab("ICBM Classic ");
+        CREATIVE_TAB.itemSorter = new ModCreativeTab.NameSorter()
+        {
+            @Override
+            public String getLabel(ItemStack stack)
+            {
+                return stack.getDisplayName();
+            }
+        };
+        super.manager.setTab(CREATIVE_TAB);
     }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
+
+        //Items
+        itemTracker = manager.newItem(ItemTracker.class);
     }
 
     @Mod.EventHandler
