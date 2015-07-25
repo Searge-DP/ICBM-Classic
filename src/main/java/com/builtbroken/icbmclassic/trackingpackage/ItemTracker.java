@@ -31,13 +31,15 @@ public class ItemTracker extends Item {
         if(itemStack.stackTagCompound == null){
             list.add(EnumChatFormatting.BLUE + "Tracks People");
         }else{
+            Entity entity = getTrackingEntity(player.worldObj, itemStack);
+            if(entity != null){
             //add information where my entity is gone.
                 list.add(EnumChatFormatting.BLUE +
-                    " X: " + Math.round(getTrackingEntity(player.worldObj, itemStack).posX) +
-                    " Y: " + Math.round(getTrackingEntity(player.worldObj, itemStack).posY) +
-                    " Z: " + Math.round(getTrackingEntity(player.worldObj, itemStack).posZ));
-
+                    " X: " + Math.round(entity.posX) +
+                    " Y: " + Math.round(entity.posY) +
+                    " Z: " + Math.round(entity.posZ));
             }
+        }
     }
 
     public void setTrackingEntity(ItemStack itemStack, Entity entity){
