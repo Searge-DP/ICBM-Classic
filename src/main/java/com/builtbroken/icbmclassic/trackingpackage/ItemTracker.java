@@ -29,7 +29,7 @@ public class ItemTracker extends Item {
 
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
         if(itemStack.stackTagCompound == null){
-            list.add(EnumChatFormatting.BLUE + "Tracks People");
+            list.add(EnumChatFormatting.BLUE +  LanguageUtility.getLocalName("item.icbmclassic:itemtracker.description.name"));
         }else{
             Entity entity = getTrackingEntity(player.worldObj, itemStack);
             if(entity != null){
@@ -38,6 +38,8 @@ public class ItemTracker extends Item {
                     " X: " + Math.round(entity.posX) +
                     " Y: " + Math.round(entity.posY) +
                     " Z: " + Math.round(entity.posZ));
+            }else{
+                list.add(EnumChatFormatting.BLUE +  LanguageUtility.getLocalName("item.icbmclassic:itemtracker.description.name"));
             }
         }
     }
