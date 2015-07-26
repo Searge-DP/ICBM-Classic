@@ -1,6 +1,6 @@
 package com.builtbroken.icbmclassic;
 
-import com.builtbroken.icbmclassic.trackingpackage.ItemTracker;
+import com.builtbroken.icbmclassic.content.item.ItemTracker;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.AbstractProxy;
 import cpw.mods.fml.common.Mod;
