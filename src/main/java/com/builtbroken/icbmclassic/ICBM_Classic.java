@@ -1,6 +1,7 @@
 package com.builtbroken.icbmclassic;
 
 import com.builtbroken.icbmclassic.content.item.ItemTracker;
+import com.builtbroken.icbmclassic.content.item.ItemGrenade;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.AbstractProxy;
 import cpw.mods.fml.common.Mod;
@@ -52,6 +53,7 @@ public class ICBM_Classic extends AbstractMod
     // Items
 
     public static Item itemTracker;
+    public static Item itemGrenade;
 
     public final ModCreativeTab CREATIVE_TAB;
 
@@ -87,6 +89,7 @@ public class ICBM_Classic extends AbstractMod
 
         //Items
         itemTracker = manager.newItem(ItemTracker.class);
+        itemGrenade = manager.newItem(ItemGrenade.class);
     }
 
     @Mod.EventHandler

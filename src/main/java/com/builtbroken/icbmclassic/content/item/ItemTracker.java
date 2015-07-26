@@ -21,7 +21,7 @@ import java.util.List;
 public class ItemTracker extends Item {
 
     public ItemTracker() {
-        this.setUnlocalizedName("Item Tracker");
+        this.setUnlocalizedName("Tracker");
         this.setMaxStackSize(1);
         this.setMaxDamage(64);
     }
