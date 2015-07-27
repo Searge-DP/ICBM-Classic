@@ -1,6 +1,7 @@
 package com.builtbroken.icbmclassic.content.entity;
 
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.MovingObjectPosition;
@@ -32,13 +33,22 @@ public class EntityGrenade extends EntityThrowable{
         this.setVelocity(x, y, z);
         this.lifespan = duration;
         this.player = arg1EntityLivingBase;
+
+        /*
+        int entityID = EntityRegistry.findGlobalUniqueEntityId();
+
+        EntityRegistry.registerGlobalEntityID(EntityGrenade.class, "EntityGrenade", entityID);
+        EntityRegistry.registerModEntity(EntityGrenade.class, "EntityGrenade", entityID, this, 64, 1, true);
+        */
     }
 
     public void onUpdate(){
-        this.lifespan --;
-        if(this.lifespan <= 0){
-            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float) this.explosionRadius, true);
-            this.setDead();
+        if(!this.worldObj.isRemote){
+            this.lifespan --;
+            if(this.lifespan <= 0){
+                this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float) this.explosionRadius, true);
+                this.setDead();
+            }
         }
         super.onUpdate();
     }
@@ -48,32 +58,28 @@ public class EntityGrenade extends EntityThrowable{
         double y = this.motionY;
         double z = this.motionZ;
 
-
             if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 
                 switch (mop.sideHit) {
                     case 0: //BOTTOM
-                        this.setVelocity(x, -0.1 * y, z);
+                        this.setVelocity(0.75*x, -0.1 * y, 0.75*z);
                         break;
                     case 1: //TOP
-                        this.setVelocity(x, -0.1 * y, z);
+                        this.setVelocity(0.75*x, -0.1 * y, 0.75*z);
                         break;
                     case 2: //EAST
-                        this.setVelocity(x, y, -0.1 * z);
+                        this.setVelocity(0.75*x, 0.75*y, -0.1 * z);
                         break;
                     case 3: //WEST
-                        this.setVelocity(x, y, -0.1 * z);
+                        this.setVelocity(0.75*x, 0.75*y, -0.1 * z);
                         break;
                     case 4: //NORTH
-                        this.setVelocity(-0.1 * x, y, z);
+                        this.setVelocity(-0.1 * x, 0.75*y, 0.75*z);
                         break;
                     case 5: //SOUTH
-                        this.setVelocity(-0.1 * x, y, z);
+                        this.setVelocity(-0.1 * x, 0.75*y, 0.75*z);
                         break;
                 }
             }
-
-
-        //this.setVelocity(0, 0, 0);
     }
 }

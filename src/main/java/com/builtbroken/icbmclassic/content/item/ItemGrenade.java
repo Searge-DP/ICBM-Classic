@@ -1,5 +1,7 @@
 package com.builtbroken.icbmclassic.content.item;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -16,6 +18,8 @@ public class ItemGrenade extends Item{
         this.setMaxStackSize(16);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
+
+
     }
 
     @Override
@@ -34,7 +38,6 @@ public class ItemGrenade extends Item{
     @Override
     public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityPlayer entityPlayer, int duration){
         world.playSoundAtEntity(entityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-        world.spawnEntityInWorld(new EntityGrenade(world, entityPlayer, duration));
 
         if (!entityPlayer.capabilities.isCreativeMode) {
             itemStack.stackSize--;
@@ -43,6 +46,12 @@ public class ItemGrenade extends Item{
                 entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
             }
         }
+
+        if(!world.isRemote){
+            world.spawnEntityInWorld(new EntityGrenade(world, entityPlayer, duration));
+        }else{
+        }
+
     }
-    
+
 }

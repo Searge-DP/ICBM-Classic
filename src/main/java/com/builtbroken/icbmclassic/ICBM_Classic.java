@@ -10,11 +10,13 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.item.Item;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import net.minecraft.item.ItemStack;
+import com.builtbroken.icbmclassic.content.entity.EntityGrenade;
 
 /**
  * Created by robert on 1/17/2015.
@@ -66,6 +68,8 @@ public class ICBM_Classic extends AbstractMod
     @SidedProxy(clientSide = "com.builtbroken.icbmclassic.ClientProxy", serverSide = "com.builtbroken.icbmclassic.CommonProxy")
     public static CommonProxy proxy;
 
+
+
     public ICBM_Classic()
     {
         super(DOMAIN, "ICBM-Classic");
@@ -90,6 +94,13 @@ public class ICBM_Classic extends AbstractMod
         //Items
         itemTracker = manager.newItem(ItemTracker.class);
         itemGrenade = manager.newItem(ItemGrenade.class);
+
+        int entityID = EntityRegistry.findGlobalUniqueEntityId();
+
+        EntityRegistry.registerGlobalEntityID(EntityGrenade.class, "EntityGrenade", entityID);
+        EntityRegistry.registerModEntity(EntityGrenade.class, "EntityGrenade", entityID+1, this, 64, 1, true);
+
+        proxy.registerRenderers();
     }
 
     @Mod.EventHandler
