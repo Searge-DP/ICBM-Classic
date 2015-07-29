@@ -1,7 +1,5 @@
 package com.builtbroken.icbmclassic.content.entity;
 
-import com.builtbroken.mc.lib.helper.LanguageUtility;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.MovingObjectPosition;
