@@ -1,7 +1,7 @@
 package com.builtbroken.icbmclassic;
 
 import com.builtbroken.icbmclassic.content.item.ItemTracker;
-import com.builtbroken.icbmclassic.content.item.ItemGrenade;
+import com.builtbroken.icbmclassic.content.grenade.ItemGrenade;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.AbstractProxy;
 import cpw.mods.fml.common.Mod;
@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.item.Item;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import net.minecraft.item.ItemStack;
-import com.builtbroken.icbmclassic.content.entity.EntityGrenade;
+import com.builtbroken.icbmclassic.content.grenade.EntityGrenade;
 
 /**
  * Created by robert on 1/17/2015.
@@ -67,8 +67,6 @@ public class ICBM_Classic extends AbstractMod
 
     @SidedProxy(clientSide = "com.builtbroken.icbmclassic.ClientProxy", serverSide = "com.builtbroken.icbmclassic.CommonProxy")
     public static CommonProxy proxy;
-
-
 
     public ICBM_Classic()
     {

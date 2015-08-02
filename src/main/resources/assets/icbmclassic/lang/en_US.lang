@@ -1,0 +1,6 @@
+## ICBM Classic
+
+## ItemTracker
+item.icbmclassic:tracker.name=Tracker
+item.icbmclassic:itemtracker.description=Left click to track players
+item.icbmclassic:itemtracker.trackingmessage=Now tracking:

@@ -1,4 +1,4 @@
-package com.builtbroken.icbmclassic.content.entity;
+package com.builtbroken.icbmclassic.content.grenade;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -31,15 +31,9 @@ public class EntityGrenade extends EntityThrowable{
         this.setVelocity(x, y, z);
         this.lifespan = duration;
         this.player = arg1EntityLivingBase;
-
-        /*
-        int entityID = EntityRegistry.findGlobalUniqueEntityId();
-
-        EntityRegistry.registerGlobalEntityID(EntityGrenade.class, "EntityGrenade", entityID);
-        EntityRegistry.registerModEntity(EntityGrenade.class, "EntityGrenade", entityID, this, 64, 1, true);
-        */
     }
 
+    @Override
     public void onUpdate(){
         if(!this.worldObj.isRemote){
             this.lifespan --;
@@ -51,6 +45,7 @@ public class EntityGrenade extends EntityThrowable{
         super.onUpdate();
     }
 
+    @Override
     public void onImpact(MovingObjectPosition mop){
         double x = this.motionX;
         double y = this.motionY;

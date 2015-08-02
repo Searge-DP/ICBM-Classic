@@ -1,12 +1,9 @@
-package com.builtbroken.icbmclassic.content.item;
+package com.builtbroken.icbmclassic.content.grenade;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraft.entity.player.EntityPlayer;
-import com.builtbroken.icbmclassic.content.entity.EntityGrenade;
 
 /**
  * Created by Philipp on 26.07.2015.
@@ -49,9 +46,7 @@ public class ItemGrenade extends Item{
 
         if(!world.isRemote){
             world.spawnEntityInWorld(new EntityGrenade(world, entityPlayer, duration));
-        }else{
         }
-
     }
 
 }

@@ -1,6 +1,6 @@
 package com.builtbroken.icbmclassic;
 
-import com.builtbroken.icbmclassic.content.entity.EntityGrenade;
+import com.builtbroken.icbmclassic.content.grenade.EntityGrenade;
 import com.builtbroken.icbmclassic.content.render.RenderGrenade;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
