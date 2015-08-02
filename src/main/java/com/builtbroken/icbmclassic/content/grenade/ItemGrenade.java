@@ -30,7 +30,7 @@ public class ItemGrenade extends Item implements IExplosiveItem, IPostInit
 
     public ItemGrenade()
     {
-        this.setUnlocalizedName("Grenade");
+        this.setUnlocalizedName(ICBM_Classic.PREFIX + "grenade");
         this.setMaxStackSize(16);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
@@ -43,9 +43,9 @@ public class ItemGrenade extends Item implements IExplosiveItem, IPostInit
     }
 
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean p_77624_4_)
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean p_77624_4_)
     {
-        //TODO add explosive information
+        ExplosiveItemUtility.addInformation(stack, player, list, p_77624_4_);
     }
 
     @SideOnly(Side.CLIENT)
@@ -77,7 +77,7 @@ public class ItemGrenade extends Item implements IExplosiveItem, IPostInit
     @Override
     public int getMaxItemUseDuration(ItemStack par1ItemStack)
     {
-        return 5 * 20;
+        return 3 * 20;
     }
 
     @Override
@@ -105,7 +105,8 @@ public class ItemGrenade extends Item implements IExplosiveItem, IPostInit
 
         if (!world.isRemote)
         {
-            EntityGrenade grenade = new EntityGrenade(world, entityPlayer, Math.max(minVelovity, Math.min((duration / getMaxItemUseDuration(itemStack)) * maxVelovity, maxVelovity)));
+            float percent = duration / getMaxItemUseDuration(itemStack);
+            EntityGrenade grenade = new EntityGrenade(world, entityPlayer, (float)Math.max(minVelovity, Math.min(percent * maxVelovity, maxVelovity)));
             grenade.setExplosive(getExplosive(itemStack), 1.0, new NBTTagCompound());
             world.spawnEntityInWorld(grenade);
         }

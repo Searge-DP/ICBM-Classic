@@ -1,21 +1,24 @@
 package com.builtbroken.icbmclassic.content.grenade;
 
+import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.explosive.IGrenadeEntity;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Created by Philipp on 26.07.2015.
  */
 public class EntityGrenade extends EntityThrowable implements IGrenadeEntity
 {
-    private double relVelocity = 0.75;
     private int lifespan = 100;
+    private boolean stuckInGround = false;
     private Pos prev_pos;
 
     protected double explosionRadius = 1.0F;
@@ -35,16 +38,9 @@ public class EntityGrenade extends EntityThrowable implements IGrenadeEntity
         super(world, xx, yy, zz);
     }
 
-    public EntityGrenade(World world, EntityLivingBase throwingEntity, double vel)
+    public EntityGrenade(World world, EntityLivingBase throwingEntity, float vel)
     {
-        super(world, throwingEntity);
-        //slows down the grenade depending on a maximum throw force and velocity of the Player.
-        this.relVelocity = vel;
-        double x = throwingEntity.getLookVec().xCoord * relVelocity + throwingEntity.motionX;
-        double y = throwingEntity.getLookVec().yCoord * relVelocity + throwingEntity.motionY;
-        double z = throwingEntity.getLookVec().zCoord * relVelocity + throwingEntity.motionZ;
-        this.setVelocity(x, y, z);
-        this.throwingEntity = throwingEntity;
+        super(world, throwingEntity, vel);
     }
 
     @Override
@@ -57,13 +53,13 @@ public class EntityGrenade extends EntityThrowable implements IGrenadeEntity
             {
                 if (getExplosive() != null)
                 {
-                    //ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(throwingEntity), explosionRadius, explosiveData);
+                    ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(throwingEntity), explosionRadius, explosiveData);
                 }
                 else
                 {
-                    //this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float) this.explosionRadius, true);
+                    this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float) this.explosionRadius, true);
                 }
-                //this.setDead();
+                this.setDead();
             }
         }
         super.onUpdate();
@@ -72,45 +68,43 @@ public class EntityGrenade extends EntityThrowable implements IGrenadeEntity
     @Override
     public void onImpact(MovingObjectPosition mop)
     {
-        double x = this.motionX;
-        double y = this.motionY;
-        double z = this.motionZ;
-        Pos impactPos = new Pos(mop);
+        this.motionX = this.motionX * 0.98;
+        this.motionY = this.motionY * 0.98;
+        this.motionZ = this.motionZ * 0.98;
 
-        if (this.prev_pos == impactPos)
+        if (!inGround && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
         {
-            this.setVelocity(0, 0, 0);
-        }
-        else
-        {
-            this.prev_pos = impactPos;
-            if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+            Block block = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+
+            if (block != null && block == cachedBlock)
             {
-                //TODO have not bounce off of things like grass or spider webs
-                switch (mop.sideHit)
+                this.blockX = mop.blockX;
+                this.blockY = mop.blockY;
+                this.blockZ = mop.blockZ;
+                this.cachedBlock = block;
+                this.inGround = true;
+            }
+            else
+            {
+                switch (ForgeDirection.getOrientation(mop.sideHit))
                 {
-                    case 0: //BOTTOM
-                        this.setVelocity(0.75 * x, -0.1 * y, 0.75 * z);
+                    case UP:
+                    case DOWN:
+                        this.setThrowableHeading(motionX, -motionY, motionZ, 1.0f, 0.0f);
                         break;
-                    case 1: //TOP
-                        this.setVelocity(0.75 * x, -0.1 * y, 0.75 * z);
+                    case EAST:
+                    case WEST:
+                        this.setThrowableHeading(-motionX, motionY, motionZ, 1.0f, 0.0f);
                         break;
-                    case 2: //EAST
-                        this.setVelocity(0.75 * x, 0.75 * y, -0.1 * z);
-                        break;
-                    case 3: //WEST
-                        this.setVelocity(0.75 * x, 0.75 * y, -0.1 * z);
-                        break;
-                    case 4: //NORTH
-                        this.setVelocity(-0.1 * x, 0.75 * y, 0.75 * z);
-                        break;
-                    case 5: //SOUTH
-                        this.setVelocity(-0.1 * x, 0.75 * y, 0.75 * z);
+                    case NORTH:
+                    case SOUTH:
+                        this.setThrowableHeading(motionX, motionY, -motionZ, 1.0f, 0.0f);
                         break;
                 }
             }
         }
     }
+
 
     @Override
     public boolean setExplosive(IExplosiveHandler ex, double size, NBTTagCompound nbt)
