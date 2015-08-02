@@ -68,40 +68,59 @@ public class EntityGrenade extends EntityThrowable implements IGrenadeEntity
     @Override
     public void onImpact(MovingObjectPosition mop)
     {
-        this.motionX = this.motionX * 0.98;
-        this.motionY = this.motionY * 0.98;
-        this.motionZ = this.motionZ * 0.98;
+        //Reduced velocity for each time we hit something
+        this.motionX = this.motionX * 0.55;
+        this.motionY = this.motionY * 0.55;
+        this.motionZ = this.motionZ * 0.55;
 
-        if (!inGround && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+        if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
         {
-            Block block = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+            //TODO play impact sound effect
+            //TODO play rolling on ground sound effect
+            if (!inGround)
+            {
+                Block block = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
 
-            if (block != null && block == cachedBlock)
-            {
-                this.blockX = mop.blockX;
-                this.blockY = mop.blockY;
-                this.blockZ = mop.blockZ;
-                this.cachedBlock = block;
-                this.inGround = true;
-            }
-            else
-            {
-                switch (ForgeDirection.getOrientation(mop.sideHit))
+                //Cuts motion Y if we are not moving in any direction
+                if (motionX <= .05 && motionZ <= .05)
                 {
-                    case UP:
-                    case DOWN:
-                        this.setThrowableHeading(motionX, -motionY, motionZ, 1.0f, 0.0f);
-                        break;
-                    case EAST:
-                    case WEST:
-                        this.setThrowableHeading(-motionX, motionY, motionZ, 1.0f, 0.0f);
-                        break;
-                    case NORTH:
-                    case SOUTH:
-                        this.setThrowableHeading(motionX, motionY, -motionZ, 1.0f, 0.0f);
-                        break;
+                    motionY = 0;
+                }
+
+                //Checks if we are bounce on the same block
+                if (block != null && block == cachedBlock)
+                {
+                    this.blockX = mop.blockX;
+                    this.blockY = mop.blockY;
+                    this.blockZ = mop.blockZ;
+                    this.cachedBlock = block;
+                    this.inGround = true;
+                }
+                else
+                {
+                    //Redirects the motion to the opposite direction based on side TODO use the same code for entity collisions
+                    switch (ForgeDirection.getOrientation(mop.sideHit))
+                    {
+                        case UP:
+                        case DOWN:
+                            this.motionY = -this.motionY;
+                            break;
+                        case EAST:
+                        case WEST:
+                            this.motionX = -this.motionX;
+                            break;
+                        case NORTH:
+                        case SOUTH:
+                            this.motionZ = -this.motionZ;
+                            break;
+                    }
                 }
             }
+        }
+        else if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY)
+        {
+            //TODO apply some damage to the entity based on velocity
+            //TODO play impact sound effect
         }
     }
 
