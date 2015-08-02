@@ -1,6 +1,7 @@
 package com.builtbroken.icbmclassic.content.grenade;
 
 import com.builtbroken.icbmclassic.ICBM_Classic;
+import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.ICustomGrenadeRenderer;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
@@ -12,6 +13,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,8 +27,8 @@ import java.util.List;
  */
 public class ItemGrenade extends Item implements IExplosiveItem, IPostInit
 {
-    private double minVelovity = 0.30;
-    private double maxVelovity = 0.80;
+    private float minVelocity = 0.30f;
+    private float maxVelocity = 0.8f;
 
     public ItemGrenade()
     {
@@ -75,9 +77,15 @@ public class ItemGrenade extends Item implements IExplosiveItem, IPostInit
     }
 
     @Override
-    public int getMaxItemUseDuration(ItemStack par1ItemStack)
+    public int getMaxItemUseDuration(ItemStack stack)
     {
-        return 3 * 20;
+        return 5 * 20;
+    }
+
+    @Override
+    public EnumAction getItemUseAction(ItemStack stack)
+    {
+        return EnumAction.bow;
     }
 
     @Override
@@ -89,8 +97,34 @@ public class ItemGrenade extends Item implements IExplosiveItem, IPostInit
     }
 
     @Override
+    public void onUsingTick(ItemStack itemStack, EntityPlayer entityPlayer, int count)
+    {
+        if (ICBM_Classic.GRENADES_BLOW_UP_IN_HAND && !entityPlayer.capabilities.isCreativeMode && count <= 1)
+        {
+            World world = entityPlayer.getEntityWorld();
+            itemStack.stackSize--;
+
+            if (itemStack.stackSize <= 0)
+            {
+                entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
+            }
+
+            if (!world.isRemote)
+            {
+                if (getExplosive(itemStack) != null)
+                    ExplosiveRegistry.triggerExplosive(world, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, getExplosive(itemStack), new TriggerCause.TriggerCauseEntity(entityPlayer), 1, new NBTTagCompound());
+
+            }
+            entityPlayer.clearItemInUse();
+        }
+    }
+
+    @Override
     public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityPlayer entityPlayer, int duration)
     {
+        if (itemStack.stackSize == 0)
+            return;
+
         world.playSoundAtEntity(entityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
         if (!entityPlayer.capabilities.isCreativeMode)
@@ -105,8 +139,8 @@ public class ItemGrenade extends Item implements IExplosiveItem, IPostInit
 
         if (!world.isRemote)
         {
-            float percent = duration / getMaxItemUseDuration(itemStack);
-            EntityGrenade grenade = new EntityGrenade(world, entityPlayer, (float)Math.max(minVelovity, Math.min(percent * maxVelovity, maxVelovity)));
+            float percent = ((float) getMaxItemUseDuration(itemStack) - (float) duration) / (float) getMaxItemUseDuration(itemStack);
+            EntityGrenade grenade = new EntityGrenade(world, entityPlayer, Math.max(minVelocity, Math.min(percent * maxVelocity, maxVelocity)));
             grenade.setExplosive(getExplosive(itemStack), 1.0, new NBTTagCompound());
             world.spawnEntityInWorld(grenade);
         }

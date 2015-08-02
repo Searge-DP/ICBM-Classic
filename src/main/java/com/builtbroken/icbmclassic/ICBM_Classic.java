@@ -11,6 +11,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
+import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraft.item.Item;
@@ -68,6 +69,9 @@ public class ICBM_Classic extends AbstractMod
     @SidedProxy(clientSide = "com.builtbroken.icbmclassic.ClientProxy", serverSide = "com.builtbroken.icbmclassic.CommonProxy")
     public static CommonProxy proxy;
 
+
+    public static boolean GRENADES_BLOW_UP_IN_HAND = true;
+
     public ICBM_Classic()
     {
         super(DOMAIN, "ICBM-Classic");
@@ -89,14 +93,13 @@ public class ICBM_Classic extends AbstractMod
     {
         super.preInit(event);
 
+        GRENADES_BLOW_UP_IN_HAND = getConfig().getBoolean("GrenadesBlowUpInHand", Configuration.CATEGORY_GENERAL, GRENADES_BLOW_UP_IN_HAND, "When a player holds the grenade too long it will blow up");
         //Items
         itemTracker = manager.newItem(ItemTracker.class);
+
         itemGrenade = manager.newItem(ItemGrenade.class);
-
-        int entityID = EntityRegistry.findGlobalUniqueEntityId();
-
-        EntityRegistry.registerGlobalEntityID(EntityGrenade.class, "EntityGrenade", entityID);
-        EntityRegistry.registerModEntity(EntityGrenade.class, "EntityGrenade", entityID+1, this, 64, 1, true);
+        EntityRegistry.registerGlobalEntityID(EntityGrenade.class, "EntityGrenade", EntityRegistry.findGlobalUniqueEntityId());
+        EntityRegistry.registerModEntity(EntityGrenade.class, "EntityGrenade", 77, this, 64, 1, true);
     }
 
     @Mod.EventHandler
