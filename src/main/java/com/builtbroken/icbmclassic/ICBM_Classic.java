@@ -99,8 +99,6 @@ public class ICBM_Classic extends AbstractMod
 
         EntityRegistry.registerGlobalEntityID(EntityGrenade.class, "EntityGrenade", entityID);
         EntityRegistry.registerModEntity(EntityGrenade.class, "EntityGrenade", entityID+1, this, 64, 1, true);
-
-        proxy.registerRenderers();
     }
 
     @Mod.EventHandler

@@ -1,11 +1,17 @@
 package com.builtbroken.icbmclassic;
 
 import com.builtbroken.icbmclassic.content.entity.EntityGrenade;
+import com.builtbroken.icbmclassic.content.render.RenderGrenade;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import net.minecraft.client.renderer.entity.RenderSnowball;
 
 /**
  * Created by robert on 1/17/2015.
  */
-public class ClientProxy extends CommonProxy {
+public class ClientProxy extends CommonProxy
+{
+    @Override
+    public void init()
+    {
+        RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenade(ICBM_Classic.itemGrenade));
+    }
 }

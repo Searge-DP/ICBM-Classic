@@ -1,4 +1,4 @@
-package com.builtbroken.icbmclassic.missile;
+package com.builtbroken.icbmclassic.content.missile;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IAmmo;

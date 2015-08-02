@@ -1,4 +1,4 @@
-package com.builtbroken.icbmclassic.missile;
+package com.builtbroken.icbmclassic.content.missile;
 
 import com.builtbroken.icbm.content.missile.AmmoTypeMissile;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
