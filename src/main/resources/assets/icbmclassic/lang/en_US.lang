@@ -2,7 +2,7 @@
 
 ## ItemTracker
 item.icbmclassic:tracker.name=Tracker
-item.icbmclassic:itemtracker.description=Left click to track players
-item.icbmclassic:itemtracker.trackingmessage=Now tracking:
+item.icbmclassic:tracker.description=Left click to track players
+item.icbmclassic:tracker.trackingmessage=Now tracking:
 
 item.icbmclassic:grenade.name=Grenade

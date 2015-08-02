@@ -102,19 +102,23 @@ public class ItemGrenade extends Item implements IExplosiveItem, IPostInit
         if (ICBM_Classic.GRENADES_BLOW_UP_IN_HAND && !entityPlayer.capabilities.isCreativeMode && count <= 1)
         {
             World world = entityPlayer.getEntityWorld();
-            itemStack.stackSize--;
 
+            //Consume item
+            itemStack.stackSize--;
             if (itemStack.stackSize <= 0)
             {
                 entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
             }
 
+            //Spawn explosion
             if (!world.isRemote)
             {
                 if (getExplosive(itemStack) != null)
                     ExplosiveRegistry.triggerExplosive(world, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, getExplosive(itemStack), new TriggerCause.TriggerCauseEntity(entityPlayer), 1, new NBTTagCompound());
 
             }
+
+            //Clear item in use as it just exploded in the player's face
             entityPlayer.clearItemInUse();
         }
     }
