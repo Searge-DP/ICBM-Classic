@@ -1,7 +1,7 @@
 package com.builtbroken.icbmclassic;
 
 import com.builtbroken.icbmclassic.content.grenade.EntityGrenade;
-import com.builtbroken.icbmclassic.content.render.RenderGrenade;
+import com.builtbroken.icbmclassic.content.grenade.RenderGrenade;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 /**
@@ -12,6 +12,6 @@ public class ClientProxy extends CommonProxy
     @Override
     public void init()
     {
-        RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenade(ICBM_Classic.itemGrenade));
+        RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenade());
     }
 }
