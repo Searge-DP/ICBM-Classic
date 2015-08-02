@@ -1,10 +1,8 @@
 package com.builtbroken.icbmclassic.content.grenade;
 
-import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.explosive.IGrenadeEntity;
 import com.builtbroken.mc.lib.transform.vector.Pos;
-import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,10 +15,8 @@ import net.minecraft.world.World;
 public class EntityGrenade extends EntityThrowable implements IGrenadeEntity
 {
     private double relVelocity = 0.75;
-    private double minVelovity = 0.10;
-    private double maxVelovity = 0.80;
-    private int lifespan;
-    private Pos pos;
+    private int lifespan = 100;
+    private Pos prev_pos;
 
     protected double explosionRadius = 1.0F;
     protected EntityLivingBase throwingEntity;
@@ -39,22 +35,15 @@ public class EntityGrenade extends EntityThrowable implements IGrenadeEntity
         super(world, xx, yy, zz);
     }
 
-    public EntityGrenade(World world, EntityLivingBase throwingEntity, int timer)
+    public EntityGrenade(World world, EntityLivingBase throwingEntity, double vel)
     {
         super(world, throwingEntity);
         //slows down the grenade depending on a maximum throw force and velocity of the Player.
-
-        if(timer <= 40){
-            relVelocity = maxVelovity;
-        }else{
-            relVelocity = minVelovity + (60-timer) * (maxVelovity-minVelovity)/20;
-        }
-
+        this.relVelocity = vel;
         double x = throwingEntity.getLookVec().xCoord * relVelocity + throwingEntity.motionX;
         double y = throwingEntity.getLookVec().yCoord * relVelocity + throwingEntity.motionY;
         double z = throwingEntity.getLookVec().zCoord * relVelocity + throwingEntity.motionZ;
         this.setVelocity(x, y, z);
-        this.lifespan = timer;
         this.throwingEntity = throwingEntity;
     }
 
@@ -66,15 +55,15 @@ public class EntityGrenade extends EntityThrowable implements IGrenadeEntity
             this.lifespan--;
             if (this.lifespan <= 0)
             {
-                if(getExplosive() != null)
+                if (getExplosive() != null)
                 {
-                    ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(throwingEntity), explosionRadius, explosiveData);
+                    //ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(throwingEntity), explosionRadius, explosiveData);
                 }
                 else
                 {
-                    this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float) this.explosionRadius, true);
+                    //this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float) this.explosionRadius, true);
                 }
-                this.setDead();
+                //this.setDead();
             }
         }
         super.onUpdate();
@@ -86,14 +75,20 @@ public class EntityGrenade extends EntityThrowable implements IGrenadeEntity
         double x = this.motionX;
         double y = this.motionY;
         double z = this.motionZ;
-        Pos newpos = new Pos(mop);
+        Pos impactPos = new Pos(mop);
 
-        if(this.pos == newpos) {
-            this.setVelocity(0,0,0);
-        }else {
-            if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+        if (this.prev_pos == impactPos)
+        {
+            this.setVelocity(0, 0, 0);
+        }
+        else
+        {
+            this.prev_pos = impactPos;
+            if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+            {
                 //TODO have not bounce off of things like grass or spider webs
-                switch (mop.sideHit) {
+                switch (mop.sideHit)
+                {
                     case 0: //BOTTOM
                         this.setVelocity(0.75 * x, -0.1 * y, 0.75 * z);
                         break;
