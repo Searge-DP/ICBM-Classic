@@ -1,5 +1,7 @@
 package com.builtbroken.icbmclassic.content.grenade;
 
+import com.builtbroken.icbmclassic.ICBM_Classic;
+import com.builtbroken.mc.api.explosive.ICustomGrenadeRenderer;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
@@ -7,11 +9,13 @@ import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -33,6 +37,38 @@ public class ItemGrenade extends Item implements IExplosiveItem, IPostInit
     public void onPostInit()
     {
         //TODO register recipes for items
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean p_77624_4_)
+    {
+        //TODO add explosive information
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg)
+    {
+        this.itemIcon = reg.registerIcon(ICBM_Classic.PREFIX + "grenade.default");
+        //Registered icons for custom grenades
+        for (IExplosiveHandler handler : ExplosiveRegistry.getExplosives())
+        {
+            if (handler instanceof ICustomGrenadeRenderer)
+            {
+                ((ICustomGrenadeRenderer) handler).registerGrenadeIcons(reg);
+            }
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(ItemStack stack, int pass)
+    {
+        IExplosiveHandler handler = getExplosive(stack);
+        if (handler instanceof ICustomGrenadeRenderer)
+        {
+            return ((ICustomGrenadeRenderer) handler).getGrenadeIcon(stack);
+        }
+        return super.getIcon(stack, pass);
     }
 
     @Override
