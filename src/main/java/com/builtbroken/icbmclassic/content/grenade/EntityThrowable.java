@@ -67,7 +67,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile
         this.motionX = (double) (-MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * f);
         this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * f);
         this.motionY = (double) (-MathHelper.sin((this.rotationPitch) / 180.0F * (float) Math.PI) * f);
-        this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, vel, 1.0F);
+        this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, vel, 0.0F);
     }
 
     public EntityThrowable(World world, EntityLivingBase throwingEntity)
@@ -325,7 +325,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile
     @SideOnly(Side.CLIENT)
     public float getShadowSize()
     {
-        return 0.0F;
+        return 0.25F;
     }
 
     public EntityLivingBase getThrower()

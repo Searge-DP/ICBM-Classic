@@ -129,7 +129,7 @@ public class ItemGrenade extends Item implements IExplosiveItem, IPostInit
         if (itemStack.stackSize == 0)
             return;
 
-        world.playSoundAtEntity(entityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        world.playSoundAtEntity(entityPlayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
         if (!entityPlayer.capabilities.isCreativeMode)
         {

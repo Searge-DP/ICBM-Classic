@@ -48,7 +48,7 @@ public class RenderGrenade extends Render
     private void renderDefault(Entity entity, double xx, double yy, double zz, float p_76986_8_, float p_76986_9_)
     {
         this.bindEntityTexture(entity);
-        GL11.glTranslatef(0, .15f, 0);
+        GL11.glTranslatef(0, .14f, 0);
         GL11.glScalef(0.3F, 0.3F, 0.3F);
         Assets.GRENADE_MODEL.renderAll();
     }

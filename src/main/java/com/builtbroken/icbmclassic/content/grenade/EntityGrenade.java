@@ -6,8 +6,11 @@ import com.builtbroken.mc.api.explosive.IGrenadeEntity;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -19,7 +22,7 @@ public class EntityGrenade extends EntityThrowable implements IGrenadeEntity
 {
     private int lifespan = 100;
     private boolean stuckInGround = false;
-    private Pos prev_pos;
+    private Entity hit;
 
     protected double explosionRadius = 1.0F;
     protected EntityLivingBase throwingEntity;
@@ -69,35 +72,37 @@ public class EntityGrenade extends EntityThrowable implements IGrenadeEntity
     public void onImpact(MovingObjectPosition mop)
     {
         //Reduced velocity for each time we hit something
-        this.motionX = this.motionX * 0.55;
-        this.motionY = this.motionY * 0.55;
-        this.motionZ = this.motionZ * 0.55;
+        this.motionX = this.motionX * 0.65;
+        this.motionY = this.motionY * 0.65;
+        this.motionZ = this.motionZ * 0.65;
 
         if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
         {
-            //TODO play impact sound effect
-            //TODO play rolling on ground sound effect
+            //TODO play impact sound effect: DONE
+            //TODO play rolling on ground sound effect: Fixed with the same thing
             if (!inGround)
             {
+                this.worldObj.playSoundAtEntity(this, "mob.pig.step", 0.5F, 0.4F / (rand.nextFloat()*0.4F + 0.4F));
                 Block block = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
 
                 //Cuts motion Y if we are not moving in any direction
-                if (motionX <= .05 && motionZ <= .05)
+                if (this.motionX <= .05 && this.motionZ <= .05)
                 {
-                    motionY = 0;
+                    this.motionY = 0;
                 }
 
                 //Checks if we are bounce on the same block
-                if (block != null && block == cachedBlock)
+                if (block != null && block == this.cachedBlock)
                 {
                     this.blockX = mop.blockX;
                     this.blockY = mop.blockY;
                     this.blockZ = mop.blockZ;
-                    this.cachedBlock = block;
                     this.inGround = true;
                 }
                 else
                 {
+                    this.cachedBlock = block;
+
                     //Redirects the motion to the opposite direction based on side TODO use the same code for entity collisions
                     switch (ForgeDirection.getOrientation(mop.sideHit))
                     {
@@ -121,8 +126,26 @@ public class EntityGrenade extends EntityThrowable implements IGrenadeEntity
         {
             //TODO apply some damage to the entity based on velocity
             //TODO play impact sound effect
+
+            // I dont belive, that grenades bounce off people and refuse to test it in real life.
+
+            if (this.hit != null && this.hit == mop.entityHit){
+                this.motionX = 0;
+                this.motionY = 0;
+                this.motionZ = 0;
+            }else{
+                this.hit = mop.entityHit;
+
+                this.hit.attackEntityFrom(DamageSource.generic, 1);
+
+                this.motionX = 0;
+                this.motionY = 0;
+                this.motionZ = 0;
+                this.worldObj.playSoundAtEntity(this, "mob.sheep.step", 0.5F, 0.4F / (rand.nextFloat() * 0.4F + 0.4F));
+            }
         }
     }
+
 
 
     @Override
