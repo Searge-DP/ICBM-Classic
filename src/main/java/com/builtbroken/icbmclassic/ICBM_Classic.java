@@ -1,5 +1,6 @@
 package com.builtbroken.icbmclassic;
 
+import com.builtbroken.icbmclassic.content.item.ItemRadargun;
 import com.builtbroken.icbmclassic.content.item.ItemTracker;
 import com.builtbroken.icbmclassic.content.grenade.ItemGrenade;
 import com.builtbroken.mc.lib.mod.AbstractMod;
@@ -57,6 +58,7 @@ public class ICBM_Classic extends AbstractMod
 
     public static Item itemTracker;
     public static Item itemGrenade;
+    public static Item itemRadargun;
 
     public final ModCreativeTab CREATIVE_TAB;
 
@@ -96,6 +98,7 @@ public class ICBM_Classic extends AbstractMod
         GRENADES_BLOW_UP_IN_HAND = getConfig().getBoolean("GrenadesBlowUpInHand", Configuration.CATEGORY_GENERAL, GRENADES_BLOW_UP_IN_HAND, "When a player holds the grenade too long it will blow up");
         //Items
         itemTracker = manager.newItem(ItemTracker.class);
+        itemRadargun = manager.newItem(ItemRadargun.class);
 
         itemGrenade = manager.newItem(ItemGrenade.class);
         EntityRegistry.registerGlobalEntityID(EntityGrenade.class, "EntityGrenade", EntityRegistry.findGlobalUniqueEntityId());
