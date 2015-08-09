@@ -43,10 +43,13 @@ public class ItemRadargun extends Item {
     public ItemStack onItemRightClick(ItemStack stack, World worldObj, EntityPlayer player) {
         MovingObjectPosition mop = Minecraft.getMinecraft().renderViewEntity.rayTrace(200, 1.0F);
         if (mop != null) {
-            this.target = mop;
-            LanguageUtility.addChatToPlayer(player, "Block: "+mop.blockX+" "+mop.blockY+" "+mop.blockZ);
 
-            //TODO CHECK IF BLOCK IS AIRBLOCK
+            if(!worldObj.isAirBlock(mop.blockX,mop.blockY,mop.blockZ)){
+                this.target = mop;
+                LanguageUtility.addChatToPlayer(player, "Block: "+mop.blockX+" "+mop.blockY+" "+mop.blockZ);
+            }else{
+                return stack;
+            }
 
             //TODO Use Charge of Item
 
