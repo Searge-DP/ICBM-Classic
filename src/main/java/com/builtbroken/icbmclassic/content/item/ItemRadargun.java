@@ -29,11 +29,9 @@ public class ItemRadargun extends Item {
     long cooldown = 0;
 
     public ItemRadargun(){
-        //TODO GET LOCALIZED ITEMNAME
-        this.setUnlocalizedName("Radar Gun");
+        this.setUnlocalizedName("radargun");
         this.setMaxStackSize(1);
         this.setMaxDamage(64);
-
     }
 
     @Override
@@ -54,13 +52,12 @@ public class ItemRadargun extends Item {
                 if (!worldObj.isAirBlock(mop.blockX, mop.blockY, mop.blockZ)) {
                     this.target = new Location(worldObj, mop.blockX, mop.blockY, mop.blockZ);
 
-
-
                     LanguageUtility.addChatToPlayer(
-                            player, "Block: " +
+                            player, LanguageUtility.getLocal(getUnlocalizedName()+".trackingmessage") +
                             this.target.getX() + " " +
                             this.target.getY() + " " +
-                            this.target.getZ());
+                            this.target.getZ()
+                        );
 
                     this.saveLocation(stack, this.target);
 
@@ -92,7 +89,6 @@ public class ItemRadargun extends Item {
                         " Y: " + this.target.getY()+
                         " Z: " + this.target.getZ());
             } else {
-                //TODO LOCALIZED ITEM DESCRIPTION
                 list.add(EnumChatFormatting.BLUE + LanguageUtility.getLocal(getUnlocalizedName() + ".description"));
             }
     }
