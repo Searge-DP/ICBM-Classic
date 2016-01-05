@@ -1,2 +1,2 @@
 # ICBM-ClassicMissilePack
-Addon for ICBM that returns all the old missile models as cosmetic additions
+This mod will be a release of the old ICBM content from 1.6.4
