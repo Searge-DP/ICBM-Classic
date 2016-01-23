@@ -1,8 +1,37 @@
-## ICBM Classic
-
-## ItemTracker
-item.icbmclassic:tracker.name=Tracker
-item.icbmclassic:tracker.description=Left click to track players
-item.icbmclassic:tracker.trackingmessage=Now tracking:
-
-item.icbmclassic:grenade.name=Grenade
+item.Sulfur.name=Sulfur
+item.PoisonPowder.name=Poison Powder
+tile.ReinfGlass.name=Reinforced Glass
+tile.Concrete.name=Concrete
+tile.CompactConcrete.name=Compressed Concrete
+tile.ReinforcedConcrete.name=Reinforced Concrete
+tile.Camouflage.name=Camouflage
+tile.ProximityDetector.name=Proximity Detector
+tile.GlassButton.name=Glass Button
+tile.GlassPressurePlate.name=Glass Pressure Plate
+tile.RadarStation.name=Radar Station
+tile.EMPTower.name=EMP Tower
+tile.SulfurOre.name=Sulfur Ore
+tile.ConExplosives.name=Condensed Explosives
+tile.RepExplosives.name=Repulsive Explosives
+tile.SharpExplosives.name=Sharpel Explosives
+tile.IncExplosives.name=Incediary Explosives
+tile.DebExplosives.name=Debilitation Explosives
+tile.ChemExplosives.name=Chemical Explosives
+tile.AnvExplosives.name=Anvil Explosives
+tile.AttrExplosives.name=Attractive Explosives
+tile.FragExplosives.name=Fragmentation Explosives
+tile.ContExplosives.name=Contagious Explosives
+tile.SonicExplosives.name=Sonic Explosives
+tile.BrExplosives.name=Breaching Explosives
+tile.RejExplosives.name=Rejuvenation Explosives
+tile.ThermExplosives.name=Thermobatic Explosives
+tile.NukeExplosives.name=Nuclear Explosives
+tile.EMPExplosives.name=EMP Explosives
+tile.ExoExplosives.name=Exothermic Explosives
+tile.EndoExplosives.name=Endothermic Explosives
+tile.AntiGExplosives.name=Anti-Gravitational Explosives
+tile.EndExplosives.name=Ender Explosives
+tile.HypExplosives.name=Hypersonic Explosives
+tile.AntimatterExplosives.name=Antimatter Explosives
+tile.RedMatterExplosives.name=Red Matter Explosives
+itemGroup.CreativeTabICBM=ICBM-Classic
